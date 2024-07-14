@@ -39,8 +39,7 @@ public class CommandController {
                 .build();
         Command command = commandFactory.getCommand(commandResource.actionName());
         CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createDepositCommand().build());
-
-        return null;
+        return ResponseEntity.ok(new DepositResponseDto(commandResult.getResourceId()));
     }
 
 }
