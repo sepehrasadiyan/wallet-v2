@@ -26,6 +26,17 @@ public class MainControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessageResponse);
     }
 
+    @ExceptionHandler({UserNotFoundException.class})
+    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(Exception e) {
+        ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
+                .description(e.getLocalizedMessage())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.toString())
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .timestamp(Timestamp.from(Instant.now(Clock.systemUTC())))
+                .build();
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessageResponse);
+    }
+
     @ExceptionHandler({ValidationException.class})
     public ResponseEntity<ErrorMessageResponse> handelValidationRequests(Exception e) {
         String errorMessages = null;

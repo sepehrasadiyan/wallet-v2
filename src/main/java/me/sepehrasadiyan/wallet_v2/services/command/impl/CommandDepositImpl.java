@@ -1,5 +1,7 @@
 package me.sepehrasadiyan.wallet_v2.services.command.impl;
 
+import me.sepehrasadiyan.wallet_v2.common.request.DepositRequestDto;
+import me.sepehrasadiyan.wallet_v2.exception.UserStatusException;
 import me.sepehrasadiyan.wallet_v2.services.command.Command;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResource;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResult;
@@ -25,6 +27,12 @@ public class CommandDepositImpl implements Command {
 
     @Override
     public CommandResult execute(CommandResource commandResource) {
+        DepositRequestDto dto = (DepositRequestDto) commandResource.requestBody();
+        if (simpleUserService.userCanProcessCommand(dto.getUserId())) {
+
+        } else
+            throw new UserStatusException("user is disallowed to process this command");
+
         return null;
     }
 }
