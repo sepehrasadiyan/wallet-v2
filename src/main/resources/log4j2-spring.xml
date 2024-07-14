@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="org.apache.logging.log4j.core,io.sentry.log4j2">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" >
+            <PatternLayout  disableAnsi="false"
+                            pattern="%style{%d{ISO8601}} | %highlight{%-5level}| [%style{%t}{bright,blue}] | %style{%C{1.}}{bright,yellow} | [%X{traceId},%X{spanId},%X{parentSpanId}] %msg%n%throwable" />
+        </Console>
+
+        <Sentry name="Sentry" />
+
+        <File name="File"
+              fileName="-logger.log">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd'T'hh:mm:ss.SSSXXX} | %p | [%t] | %C{1.} | %X{traceId},%X{spanId},%X{parentSpanId} | %replace{%m}{[\r\n]+}{}%throwable{10,separator(---)}%n</pattern>
+            </PatternLayout>
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="Sentry" level="error"/>
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
+        </Root>
+    </Loggers>
+
+</Configuration>
