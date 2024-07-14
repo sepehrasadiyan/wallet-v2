@@ -15,7 +15,7 @@ import java.time.Instant;
 @ResponseBody
 public class MainControllerAdvice {
 
-    @ExceptionHandler({NoDataFoundException.class})
+    @ExceptionHandler({NoDataFoundException.class, UserNotFoundException.class})
     public ResponseEntity<ErrorMessageResponse> handelNotFoundRequests(Exception e) {
         ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
                 .description(e.getLocalizedMessage())
