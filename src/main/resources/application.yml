@@ -1,0 +1,53 @@
+server:
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+  port: 8080
+  shutdown: graceful
+
+management:
+  info:
+    git:
+      enabled: true
+      mode: full
+  endpoint:
+    shutdown:
+      enabled: false
+    beans:
+      cache:
+        time-to-live: 10s
+    health:
+      status:
+        order:
+          - fatal
+          - down
+          - out-of-service
+          - unknown
+          - up
+        http-mapping:
+          down: 503
+          fatal: 503
+          out-of-service: 503
+    loggers:
+      enabled: true
+  endpoints:
+    enabled-by-default: true
+    jmx:
+      exposure:
+        include: health,info
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    root: info
+  file:
+    name: ${LOG_FILE_NAMES:./logs/logger.log}
+  config: classpath:log4j2-spring.xml
