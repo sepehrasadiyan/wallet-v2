@@ -51,3 +51,15 @@ logging:
   file:
     name: ${LOG_FILE_NAMES:./logs/logger.log}
   config: classpath:log4j2-spring.xml
+
+datasource:
+  url: ${APP_DATABASE_URL:jdbc:mysql://localhost:3306/test}
+  username: ${APP_DATABASE_USERNAME:test}
+  password: ${APP_DATABASE_PASSWORD:test}
+  hikari:
+    driver-class-name: oracle.jdbc.OracleDriver
+    minimum-idle: ${APP_DATABASE_IDLE_NUMBER_CONNECTION:10}
+    maximum-pool-size: ${APP_DATABASE_POOL_SIZE:10}
+    max-lifetime: ${APP_CONNECTION_MAX_LIFE_TIME:55000}
+  liquibase:
+    enabled: false
