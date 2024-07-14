@@ -3,6 +3,7 @@ package me.sepehrasadiyan.wallet_v2.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import me.sepehrasadiyan.wallet_v2.common.internal.SimpleUserStatusEnum;
@@ -13,6 +14,7 @@ import me.sepehrasadiyan.wallet_v2.common.internal.SimpleUserStatusEnum;
 @Table(name = "simple_user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class SimpleUser {
 
     @Id

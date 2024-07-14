@@ -1,5 +1,6 @@
 package me.sepehrasadiyan.wallet_v2.services.internal;
 
+import me.sepehrasadiyan.wallet_v2.common.internal.SimpleUserStatusEnum;
 import me.sepehrasadiyan.wallet_v2.domain.SimpleUser;
 import me.sepehrasadiyan.wallet_v2.exception.UserNotFoundException;
 import me.sepehrasadiyan.wallet_v2.repository.SimpleUserRepository;
@@ -19,7 +20,7 @@ public class SimpleUserService {
     public boolean userCanProcessCommand(Long userId) {
         Optional<SimpleUser> simpleUser = getSimpleUser(userId);
         if (simpleUser.isPresent()) {
-
+            return simpleUser.get().getStatus().equals(SimpleUserStatusEnum.ACTIVE);
         } else {
             throw new UserNotFoundException(String.valueOf(userId));
         }
