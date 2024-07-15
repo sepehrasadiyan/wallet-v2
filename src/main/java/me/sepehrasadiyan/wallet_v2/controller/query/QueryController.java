@@ -4,6 +4,7 @@ package me.sepehrasadiyan.wallet_v2.controller.query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.sepehrasadiyan.wallet_v2.common.response.BalanceResponseDto;
+import me.sepehrasadiyan.wallet_v2.services.query.QueryHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class QueryController {
 
+    private final QueryHandler queryHandler;
+
     @GetMapping("/{userId}")
     public ResponseEntity<BalanceResponseDto> receiveGeographicalData(@PathVariable(name = "userId") Long userId) {
-
-        return null;
+        return ResponseEntity.ok(queryHandler.getUserBalance(userId));
     }
 
 }

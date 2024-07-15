@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: wallet-v2
+      MYSQL_USER: wallet-v2
+      MYSQL_PASSWORD: wallet-v2
+      MYSQL_ROOT_PASSWORD: wallet-v2
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/madara/data/mysql:/var/lib/mysql
+    networks:
+      - wallet-v2
+
+  app:
+    build: .
+    container_name: spring-boot-app
+    environment:
+      APP_DATABASE_URL: jdbc:mysql://mysql:3306/wallet-v2
+      APP_DATABASE_USERNAME: wallet-v2
+      APP_DATABASE_PASSWORD: wallet-v2
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      LOG_FILE_NAMES: /app/logs/logger.log
+    ports:
+      - "8080:8080"
+    volumes:
+      - /home/madara/data/logs:/app/logs
+    depends_on:
+      - mysql
+    networks:
+      - wallet-v2
+
+networks:
+  wallet-v2:
+    driver: bridge

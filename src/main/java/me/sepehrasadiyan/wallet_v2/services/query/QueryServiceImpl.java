@@ -7,8 +7,6 @@ import me.sepehrasadiyan.wallet_v2.services.internal.SimpleAccountService;
 import me.sepehrasadiyan.wallet_v2.services.internal.SimpleUserService;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 @Slf4j
 public class QueryServiceImpl implements QueryHandler{
