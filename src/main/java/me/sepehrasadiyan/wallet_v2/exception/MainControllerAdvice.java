@@ -49,6 +49,17 @@ public class MainControllerAdvice {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessageResponse);
     }
 
+    @ExceptionHandler({UserStatusException.class})
+    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(UserStatusException e) {
+        ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
+                .description(e.getLocalizedMessage())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.toString())
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .timestamp(Timestamp.from(Instant.now(Clock.systemUTC())))
+                .build();
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessageResponse);
+    }
+
     @ExceptionHandler({InternalErrorException.class})
     public ResponseEntity<ErrorMessageResponse> handelInternalError(InternalErrorException e) {
         ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()

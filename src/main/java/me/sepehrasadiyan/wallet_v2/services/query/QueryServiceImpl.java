@@ -6,6 +6,7 @@ import me.sepehrasadiyan.wallet_v2.domain.SimpleUser;
 import me.sepehrasadiyan.wallet_v2.services.internal.SimpleAccountService;
 import me.sepehrasadiyan.wallet_v2.services.internal.SimpleUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -22,6 +23,7 @@ public class QueryServiceImpl implements QueryHandler{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BalanceResponseDto getUserBalance(Long userId) {
         SimpleUser simpleUser = simpleUserService.getUserForProcessQuery(userId);
         return new BalanceResponseDto(simpleAccountService.runningBalance(simpleUser));

@@ -1,14 +1,26 @@
 package me.sepehrasadiyan.wallet_v2.common.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @ToString
-@Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class BalanceResponseDto {
     private BigDecimal balance;
+
+    public BalanceResponseDto(BigDecimal balance) {
+        this.balance = balance.setScale(0, RoundingMode.DOWN);
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance.setScale(0, RoundingMode.DOWN);
+    }
 }

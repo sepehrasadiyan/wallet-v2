@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog/changes/create_sequence.xml
+  - include:
+      file: db.changelog/changes/create_tables.xml
+  - include:
+      file: db.changelog/changes/create_init_data.xml

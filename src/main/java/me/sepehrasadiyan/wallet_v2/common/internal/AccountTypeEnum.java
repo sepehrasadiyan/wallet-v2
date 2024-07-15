@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum AccountTypeEnum {
-    PERSONAL(1);
+    PERSONAL(0);
 
     private final int value;
 
@@ -21,8 +21,5 @@ public enum AccountTypeEnum {
         throw new IllegalArgumentException("Unknown value: " + value);
     }
 
-    @Override
-    public String toString() {
-        return name() + "(" + value + ")";
-    }
+
 }

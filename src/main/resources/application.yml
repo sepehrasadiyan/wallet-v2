@@ -67,5 +67,6 @@ spring:
       minimum-idle: ${APP_DATABASE_IDLE_NUMBER_CONNECTION:10}
       maximum-pool-size: ${APP_DATABASE_POOL_SIZE:10}
       max-lifetime: ${APP_CONNECTION_MAX_LIFE_TIME:55000}
-    liquibase:
-      enabled: false
+  liquibase:
+    enabled: true
+    change-log: db.changelog/db.changelog-master.yaml

@@ -19,7 +19,7 @@ public class QueryController {
     private final QueryHandler queryHandler;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<BalanceResponseDto> receiveGeographicalData(@PathVariable(name = "userId") Long userId) {
+    public ResponseEntity<BalanceResponseDto> receiveBalanceData(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(queryHandler.getUserBalance(userId));
     }
 

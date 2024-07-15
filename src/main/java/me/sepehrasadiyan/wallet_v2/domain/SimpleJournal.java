@@ -1,8 +1,6 @@
 package me.sepehrasadiyan.wallet_v2.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import me.sepehrasadiyan.wallet_v2.common.internal.AccountTypeEnum;
@@ -10,12 +8,9 @@ import me.sepehrasadiyan.wallet_v2.common.internal.JournalOperationEnum;
 
 import java.math.BigDecimal;
 
-@ToString
 @Entity
 @Table(name = "simple_journal")
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class SimpleJournal {
 
     @Id
@@ -35,10 +30,58 @@ public class SimpleJournal {
     private JournalOperationEnum journalOperationEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id")
+    @ToString.Exclude
     private SimpleAccount account;
 
     @Column(name = "reference_id", nullable = false, updatable = false)
     private Long referenceId;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getAmount_change() {
+        return amount_change;
+    }
+
+    public void setAmount_change(BigDecimal amount_change) {
+        this.amount_change = amount_change;
+    }
+
+    public AccountTypeEnum getAccountTypeEnum() {
+        return accountTypeEnum;
+    }
+
+    public void setAccountTypeEnum(AccountTypeEnum accountTypeEnum) {
+        this.accountTypeEnum = accountTypeEnum;
+    }
+
+    public JournalOperationEnum getJournalOperationEnum() {
+        return journalOperationEnum;
+    }
+
+    public void setJournalOperationEnum(JournalOperationEnum journalOperationEnum) {
+        this.journalOperationEnum = journalOperationEnum;
+    }
+
+    public SimpleAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(SimpleAccount account) {
+        this.account = account;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
+    }
 }
