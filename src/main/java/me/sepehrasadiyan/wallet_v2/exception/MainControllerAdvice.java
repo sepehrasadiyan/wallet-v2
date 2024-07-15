@@ -27,7 +27,7 @@ public class MainControllerAdvice {
     }
 
     @ExceptionHandler({UserNotFoundException.class})
-    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(Exception e) {
+    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(UserNotFoundException e) {
         ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
                 .description(e.getLocalizedMessage())
                 .status(HttpStatus.UNPROCESSABLE_ENTITY.toString())
@@ -35,6 +35,17 @@ public class MainControllerAdvice {
                 .timestamp(Timestamp.from(Instant.now(Clock.systemUTC())))
                 .build();
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessageResponse);
+    }
+
+    @ExceptionHandler({InternalErrorException.class})
+    public ResponseEntity<ErrorMessageResponse> handelInternalError(InternalErrorException e) {
+        ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
+                .description(e.getLocalizedMessage())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .timestamp(Timestamp.from(Instant.now(Clock.systemUTC())))
+                .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessageResponse);
     }
 
     @ExceptionHandler({ValidationException.class})

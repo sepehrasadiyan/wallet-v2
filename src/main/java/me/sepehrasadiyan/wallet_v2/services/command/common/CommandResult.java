@@ -9,6 +9,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CommandResult implements Serializable {
 
-    private String resourceId;
+    private Long referenceNumber;
 
 }
