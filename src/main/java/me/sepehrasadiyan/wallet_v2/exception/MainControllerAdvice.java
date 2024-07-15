@@ -15,7 +15,7 @@ import java.time.Instant;
 @ResponseBody
 public class MainControllerAdvice {
 
-    @ExceptionHandler({NoDataFoundException.class, UserNotFoundException.class})
+    @ExceptionHandler({NoDataFoundException.class})
     public ResponseEntity<ErrorMessageResponse> handelNotFoundRequests(Exception e) {
         ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
                 .description(e.getLocalizedMessage())
@@ -26,8 +26,20 @@ public class MainControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessageResponse);
     }
 
-    @ExceptionHandler({UserNotFoundException.class})
-    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(UserNotFoundException e) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorMessageResponse> handelUserNotFoundException(UserNotFoundException e) {
+        ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
+                .description(e.getLocalizedMessage())
+                .status(HttpStatus.NOT_FOUND.toString())
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .timestamp(Timestamp.from(Instant.now(Clock.systemUTC())))
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessageResponse);
+    }
+
+
+    @ExceptionHandler({AccountBalanceException.class})
+    public ResponseEntity<ErrorMessageResponse> handelUnprocessableEntity(AccountBalanceException e) {
         ErrorMessageResponse errorMessageResponse = ErrorMessageResponse.builder()
                 .description(e.getLocalizedMessage())
                 .status(HttpStatus.UNPROCESSABLE_ENTITY.toString())

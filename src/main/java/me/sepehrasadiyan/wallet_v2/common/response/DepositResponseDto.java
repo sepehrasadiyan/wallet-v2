@@ -8,6 +8,6 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 public class DepositResponseDto {
-    private String referenceId;
+    private Long referenceId;
 
 }
