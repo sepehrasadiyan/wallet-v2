@@ -58,7 +58,7 @@ public class SimpleAccount {
         journal.setAmount_change(deposit);
         journal.setAccountTypeEnum(this.accountTypeEnum);
         journal.setAccount(this);
-        journal.setReferenceNumber(getNextReferenceNumber());
+        journal.setReferenceId(getNextReferenceNumber());
         this.journals.add(journal);
         return journal;
     }

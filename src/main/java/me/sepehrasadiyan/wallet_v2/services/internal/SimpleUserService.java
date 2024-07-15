@@ -31,6 +31,15 @@ public class SimpleUserService {
         }
     }
 
+    public SimpleUser getUserForProcessQuery(Long userId) {
+        Optional<SimpleUser> simpleUser = getSimpleUser(userId);
+        if (simpleUser.isEmpty()) {
+            throw new UserNotFoundException(String.valueOf(userId));
+        } else {
+            return simpleUser.get();
+        }
+    }
+
     private Optional<SimpleUser> getSimpleUser(Long userId) {
         return simpleUserRepository.findById(userId);
     }
