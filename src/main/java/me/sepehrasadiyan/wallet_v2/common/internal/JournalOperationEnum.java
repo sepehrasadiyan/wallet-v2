@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum JournalOperationEnum {
-    DEPOSIT(1),
-    WITHDRAW(2);
+    DEPOSIT(0),
+    WITHDRAW(1);
 
     private final int value;
 
@@ -22,8 +22,5 @@ public enum JournalOperationEnum {
         throw new IllegalArgumentException("Unknown value: " + value);
     }
 
-    @Override
-    public String toString() {
-        return name() + "(" + value + ")";
-    }
+
 }

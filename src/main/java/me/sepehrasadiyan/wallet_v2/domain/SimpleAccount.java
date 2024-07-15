@@ -1,9 +1,6 @@
 package me.sepehrasadiyan.wallet_v2.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import me.sepehrasadiyan.wallet_v2.common.internal.AccountTypeEnum;
 import me.sepehrasadiyan.wallet_v2.common.internal.JournalOperationEnum;
@@ -13,12 +10,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 @Entity
 @Table(name = "simple_account")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class SimpleAccount {
 
     @Id
@@ -39,16 +32,17 @@ public class SimpleAccount {
     private Long version;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private SimpleUser user;
 
-    @PersistenceContext
-    @Transient
-    private EntityManager entityManager;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, orphanRemoval = true)
+    @ToString.Exclude
     private List<SimpleJournal> journals = new ArrayList<>();
+
+
     public SimpleJournal depositAmount(BigDecimal deposit) {
         if (!validateCurrentBalance())
             throw new AccountBalanceException("balance is wrong");
@@ -58,8 +52,6 @@ public class SimpleAccount {
         journal.setAmount_change(deposit);
         journal.setAccountTypeEnum(this.accountTypeEnum);
         journal.setAccount(this);
-        journal.setReferenceId(getNextReferenceNumber());
-        this.journals.add(journal);
         return journal;
     }
 
@@ -72,16 +64,72 @@ public class SimpleAccount {
         BigDecimal counter = BigDecimal.ZERO;
         for (SimpleJournal simpleJournal : this.getJournals()) {
             if (simpleJournal.getJournalOperationEnum().equals(JournalOperationEnum.DEPOSIT)) {
-                counter.add(simpleJournal.getAmount_change());
-            }
+                counter = counter.add(simpleJournal.getAmount_change());            }
             else if (simpleJournal.getJournalOperationEnum().equals(JournalOperationEnum.WITHDRAW)) {
-                counter.subtract(simpleJournal.getAmount_change());
-            }
+                counter = counter.subtract(simpleJournal.getAmount_change());            }
         }
         return counter.equals(this.balance);
     }
 
-    private Long getNextReferenceNumber() {
-        return ((Number) entityManager.createNativeQuery("SELECT nextval('reference_number_seq')").getSingleResult()).longValue();
+    public void addJournal(SimpleJournal journal) {
+        if (journal != null) {
+            journal.setAccount(this);
+            journals.add(journal);
+        } else {
+            throw new IllegalArgumentException("Journal cannot be null");
+        }
     }
+
+    public List<SimpleJournal> getJournals() {
+        if (journals == null) {
+            journals = new ArrayList<>();
+        }
+        return journals;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public AccountTypeEnum getAccountTypeEnum() {
+        return accountTypeEnum;
+    }
+
+    public void setAccountTypeEnum(AccountTypeEnum accountTypeEnum) {
+        this.accountTypeEnum = accountTypeEnum;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public SimpleUser getUser() {
+        return user;
+    }
+
+    public void setUser(SimpleUser user) {
+        this.user = user;
+    }
+
+    public void setJournals(List<SimpleJournal> journals) {
+        this.journals = journals;
+    }
+
 }

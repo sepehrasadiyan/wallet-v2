@@ -4,15 +4,16 @@ import lombok.Getter;
 
 @Getter
 public enum SimpleUserStatusEnum {
-    ACTIVE(1),
-    SUSPEND(2),
-    DEACTIVATE(3);
+    ACTIVE(0),
+    SUSPEND(1),
+    DEACTIVATE(2);
 
     private final int value;
 
     SimpleUserStatusEnum(int value) {
         this.value = value;
     }
+
 
     public static SimpleUserStatusEnum fromValue(int value) {
         for (SimpleUserStatusEnum status : SimpleUserStatusEnum.values()) {
@@ -21,10 +22,5 @@ public enum SimpleUserStatusEnum {
             }
         }
         throw new IllegalArgumentException("Unknown value: " + value);
-    }
-
-    @Override
-    public String toString() {
-        return name() + "(" + value + ")";
     }
 }

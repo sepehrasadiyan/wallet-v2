@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2" author="s.asadiyan">
+        <createTable tableName="simple_user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="3" author="s.asadiyan">
+        <createTable tableName="simple_account">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="balance" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="simple_account"
+                constraintName="fk_simple_account_user"
+                referencedColumnNames="id"
+                referencedTableName="simple_user"/>
+    </changeSet>
+
+    <changeSet id="1" author="s.asadiyan">
+        <createTable tableName="simple_journal">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="amount_change" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operation_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reference_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="account_id"
+                baseTableName="simple_journal"
+                constraintName="fk_simple_journal_account"
+                referencedColumnNames="id"
+                referencedTableName="simple_account"/>
+    </changeSet>
+
+</databaseChangeLog>

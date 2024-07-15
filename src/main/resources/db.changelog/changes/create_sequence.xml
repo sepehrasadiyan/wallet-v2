@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create-sequence-table" author="s.asadiyan">
+        <createTable tableName="reference_number_seq">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-sequence-procedure" author="s.asadiyan">
+        <sql>
+            CREATE PROCEDURE get_next_reference_number(OUT next_val INT)
+            BEGIN
+            INSERT INTO reference_number_seq VALUES (NULL);
+            SET next_val = LAST_INSERT_ID();
+            END
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

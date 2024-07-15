@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-default-user" author="s.asadiyan">
+        <sql>
+            INSERT INTO simple_user (id, username, status)
+            VALUES (1, 'sepehr', 0);
+        </sql>
+
+        <sql>
+            INSERT INTO simple_account (id, balance, account_type, version, user_id)
+            VALUES (1, 100000.00, 0, 1, 1);
+        </sql>
+
+        <sql>
+            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id)
+            VALUES (1, 100000.00, 0, 0, 1, 255);
+        </sql>
+    </changeSet>
+
+    <changeSet id="insert-suspend-user" author="s.asadiyan">
+        <sql>
+            INSERT INTO simple_user (id, username, status)
+            VALUES (12, 'badUser', 1);
+        </sql>
+
+        <sql>
+            INSERT INTO simple_account (id, balance, account_type, version, user_id)
+            VALUES (12, 200000.00, 0, 1, 12);
+        </sql>
+
+        <sql>
+            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id)
+            VALUES (12, 200000.00, 0, 0, 12, 256);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

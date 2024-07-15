@@ -22,7 +22,7 @@ services:
       APP_DATABASE_URL: jdbc:mysql://mysql:3306/wallet-v2
       APP_DATABASE_USERNAME: wallet-v2
       APP_DATABASE_PASSWORD: wallet-v2
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
       LOG_FILE_NAMES: /app/logs/logger.log
     ports:
       - "8080:8080"
