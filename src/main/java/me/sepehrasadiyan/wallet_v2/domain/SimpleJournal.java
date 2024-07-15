@@ -38,7 +38,7 @@ public class SimpleJournal {
     @JoinColumn(name = "account_id", nullable = false)
     private SimpleAccount account;
 
-    @Column(name = "reference_number", nullable = false, updatable = false)
-    private Long referenceNumber;
+    @Column(name = "reference_id", nullable = false, updatable = false)
+    private Long referenceId;
 
 }

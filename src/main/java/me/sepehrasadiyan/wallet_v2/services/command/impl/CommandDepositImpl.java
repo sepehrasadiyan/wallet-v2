@@ -9,6 +9,7 @@ import me.sepehrasadiyan.wallet_v2.services.internal.SimpleAccountService;
 import me.sepehrasadiyan.wallet_v2.services.internal.SimpleJournalService;
 import me.sepehrasadiyan.wallet_v2.services.internal.SimpleUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "depositCommand")
 public class CommandDepositImpl implements Command {
@@ -26,6 +27,7 @@ public class CommandDepositImpl implements Command {
     }
 
     @Override
+    @Transactional
     public CommandResult execute(final CommandResource commandResource) {
         final DepositRequestDto dto = (DepositRequestDto) commandResource.requestBody();
         final SimpleUser user = simpleUserService.getUserForProcessCommand(dto.getUserId());
