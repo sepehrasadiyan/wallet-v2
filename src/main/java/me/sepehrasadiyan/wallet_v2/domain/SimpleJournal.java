@@ -7,6 +7,7 @@ import me.sepehrasadiyan.wallet_v2.common.internal.AccountTypeEnum;
 import me.sepehrasadiyan.wallet_v2.common.internal.JournalOperationEnum;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "simple_journal")
@@ -36,6 +37,9 @@ public class SimpleJournal {
 
     @Column(name = "reference_id", nullable = false, updatable = false)
     private Long referenceId;
+
+    @Column(name = "creating_time", nullable = false, updatable = false)
+    private LocalDateTime creatingTime;
 
     public Long getId() {
         return id;
@@ -83,5 +87,10 @@ public class SimpleJournal {
 
     public void setReferenceId(Long referenceId) {
         this.referenceId = referenceId;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        creatingTime = LocalDateTime.now();
     }
 }

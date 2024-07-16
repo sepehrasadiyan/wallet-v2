@@ -7,6 +7,7 @@ import me.sepehrasadiyan.wallet_v2.common.response.BalanceResponseDto;
 import me.sepehrasadiyan.wallet_v2.common.response.DepositResponseDto;
 import me.sepehrasadiyan.wallet_v2.domain.SimpleUser;
 import me.sepehrasadiyan.wallet_v2.repository.SimpleUserRepository;
+import me.sepehrasadiyan.wallet_v2.services.schedule.LedgerSchedule;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,6 +43,9 @@ public class IntegrationTest {
 
     @Autowired
     SimpleUserRepository simpleUserRepository;
+
+    @Autowired
+    LedgerSchedule ledgerSchedule;
 
     @Test
     @Order(1)
@@ -111,6 +115,13 @@ public class IntegrationTest {
                 .andReturn();
         BalanceResponseDto balanceResponseDto = jsonToBalanceResponseDto(mvcResult, objectMapper);
         Assertions.assertEquals(BigDecimal.valueOf(100000), balanceResponseDto.getBalance());
+    }
+
+
+    @Test
+    @Order(7)
+    public void testScheduledJob() throws InterruptedException {
+        ledgerSchedule.run();
     }
 
 

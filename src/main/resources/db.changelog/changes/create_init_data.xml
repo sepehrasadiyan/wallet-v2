@@ -16,8 +16,8 @@
         </sql>
 
         <sql>
-            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id)
-            VALUES (1, 100000.00, 0, 0, 1, 255);
+            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id, creating_time)
+            VALUES (1, 100000.00, 0, 0, 1, 255, CURRENT_TIMESTAMP);
         </sql>
     </changeSet>
 
@@ -33,8 +33,8 @@
         </sql>
 
         <sql>
-            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id)
-            VALUES (12, 200000.00, 0, 0, 12, 256);
+            INSERT INTO simple_journal (id, amount_change, account_type, operation_type, account_id, reference_id, creating_time)
+            VALUES (12, 200000.00, 0, 0, 12, 256, CURRENT_TIMESTAMP);
         </sql>
     </changeSet>
 
