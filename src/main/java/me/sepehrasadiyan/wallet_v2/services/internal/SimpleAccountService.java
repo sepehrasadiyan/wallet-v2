@@ -43,6 +43,18 @@ public class SimpleAccountService {
         return new CommandResult(simpleJournal.getReferenceId());
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public CommandResult makeWithdrawal(SimpleUser user, BigDecimal amount) {
+        List<SimpleAccount> accountList = simpleAccountRepository.findAllByUser(user);
+        // The logic over here can change due to the business
+        SimpleAccount simpleAccount = accountList.getFirst();
+        SimpleJournal simpleJournal = simpleAccount.withdraw(amount);
+        simpleJournal.setReferenceId(getNextReferenceNumber());
+        simpleAccount.addJournal(simpleJournal);
+        simpleAccountRepository.save(simpleAccount);
+        return new CommandResult(simpleJournal.getReferenceId());
+    }
+
 
     public BigDecimal runningBalance(SimpleUser user) {
         List<SimpleAccount> accountList = user.getAccounts();
@@ -54,6 +66,14 @@ public class SimpleAccountService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Long getNextReferenceNumber() {
         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("get_next_reference_number");
+        query.registerStoredProcedureParameter(1, Long.class, ParameterMode.OUT);
+        query.execute();
+        return (Long) query.getOutputParameterValue(1);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Long getNextAccountNumber() {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("get_next_account_number");
         query.registerStoredProcedureParameter(1, Long.class, ParameterMode.OUT);
         query.execute();
         return (Long) query.getOutputParameterValue(1);

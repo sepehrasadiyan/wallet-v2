@@ -36,6 +36,9 @@
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="account_number" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint

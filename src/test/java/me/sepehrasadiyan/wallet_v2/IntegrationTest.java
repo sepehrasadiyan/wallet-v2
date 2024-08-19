@@ -63,7 +63,7 @@ public class IntegrationTest {
     void make_deposit_success() throws Exception {
 
         MvcResult mvcResult = mvc.perform(post("/api/v1/command/deposit").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new DepositRequestDto(BigDecimal.valueOf(123333),1L)))
+                        .content(objectMapper.writeValueAsString(new DepositRequestDto(BigDecimal.valueOf(123333),1L, null)))
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ public class IntegrationTest {
     void make_deposit_error() throws Exception {
 
         MvcResult mvcResult = mvc.perform(post("/api/v1/command/deposit").contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new DepositRequestDto(BigDecimal.valueOf(123333),12L)))
+                        .content(objectMapper.writeValueAsString(new DepositRequestDto(BigDecimal.valueOf(123333),12L, null)))
                 )
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())

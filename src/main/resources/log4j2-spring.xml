@@ -9,7 +9,7 @@
         <Sentry name="Sentry" />
 
         <File name="File"
-              fileName="${env:LOG_FILES_NAMES:/logs/logger.log}">
+              fileName="./logs/logger.log">
             <PatternLayout>
                 <pattern>%d{yyyy-MM-dd'T'hh:mm:ss.SSSXXX} | %p | [%t] | %C{1.} | %X{traceId},%X{spanId},%X{parentSpanId} | %replace{%m}{[\r\n]+}{}%throwable{10,separator(---)}%n</pattern>
             </PatternLayout>

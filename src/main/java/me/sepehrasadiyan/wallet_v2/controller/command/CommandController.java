@@ -4,7 +4,9 @@ package me.sepehrasadiyan.wallet_v2.controller.command;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import me.sepehrasadiyan.wallet_v2.common.request.DepositRequestDto;
+import me.sepehrasadiyan.wallet_v2.common.request.WithdrawRequestDto;
 import me.sepehrasadiyan.wallet_v2.common.response.DepositResponseDto;
+import me.sepehrasadiyan.wallet_v2.common.response.WithdrawResponseDto;
 import me.sepehrasadiyan.wallet_v2.services.command.Command;
 import me.sepehrasadiyan.wallet_v2.services.command.CommandFactory;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandBuilder;
@@ -32,14 +34,28 @@ public class CommandController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<DepositResponseDto> receiveGeographicalData(@RequestBody @Valid DepositRequestDto request) {
+    public ResponseEntity<DepositResponseDto> handelDeposit(@RequestBody @Valid DepositRequestDto request) {
         CommandResource commandResource = new CommandBuilder<>()
-                .createDepositCommand()
+                .createDepositCommand(request.getAccountNumber(), request.getAmount())
                 .requestDto(request)
                 .build();
         Command command = commandFactory.getCommand(commandResource.actionName());
-        CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createDepositCommand().build());
+        CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createDepositCommand(
+                request.getAccountNumber(), request.getAmount()).build());
         return ResponseEntity.ok(new DepositResponseDto(commandResult.getReferenceId()));
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity<WithdrawResponseDto> handelWithdraw(@RequestBody @Valid WithdrawRequestDto request) {
+        CommandResource commandResource = new CommandBuilder<>()
+                .createWithdrawalCommand(request.getAccountNumber(), request.getAmount())
+                .requestDto(request)
+                .build();
+        Command command = commandFactory.getCommand(commandResource.actionName());
+        CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createWithdrawalCommand(
+                request.getAccountNumber(), request.getAmount()
+        ).build());
+        return ResponseEntity.ok(new WithdrawResponseDto(commandResult.getReferenceId()));
     }
 
 }

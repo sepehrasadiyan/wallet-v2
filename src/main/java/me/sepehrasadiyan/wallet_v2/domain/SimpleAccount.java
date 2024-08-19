@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.math.BigDecimal.*;
+
 @Entity
 @Table(name = "simple_account")
 public class SimpleAccount {
@@ -38,6 +40,10 @@ public class SimpleAccount {
     private SimpleUser user;
 
 
+    @Column(name = "account_number", nullable = false, length = 64)
+    private String accountNumber;
+
+
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private List<SimpleJournal> journals = new ArrayList<>();
@@ -56,12 +62,24 @@ public class SimpleAccount {
     }
 
 
-    public BigDecimal withdraw(BigDecimal withdraw) {
-        return null;
+    public SimpleJournal withdraw(BigDecimal withdraw) {
+        if (!validateCurrentBalance()) {
+            throw new AccountBalanceException("balance is wrong");
+        }
+
+        balance.subtract(withdraw);
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new AccountBalanceException("balance is not enough to withdraw");
+        }
+        SimpleJournal journal = new SimpleJournal();
+        journal.setAmount_change(withdraw);
+        journal.setAccountTypeEnum(this.accountTypeEnum);
+        journal.setAccount(this);
+        return journal;
     }
 
     public boolean validateCurrentBalance() {
-        BigDecimal counter = BigDecimal.ZERO;
+        BigDecimal counter = ZERO;
         for (SimpleJournal simpleJournal : this.getJournals()) {
             if (simpleJournal.getJournalOperationEnum().equals(JournalOperationEnum.DEPOSIT)) {
                 counter = counter.add(simpleJournal.getAmount_change());            }
@@ -132,4 +150,11 @@ public class SimpleAccount {
         this.journals = journals;
     }
 
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 }

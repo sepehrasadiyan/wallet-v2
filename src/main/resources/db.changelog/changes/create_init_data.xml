@@ -11,8 +11,8 @@
         </sql>
 
         <sql>
-            INSERT INTO simple_account (id, balance, account_type, version, user_id)
-            VALUES (1, 100000.00, 0, 1, 1);
+            INSERT INTO simple_account (id, balance, account_type, version, user_id, account_number)
+            VALUES (1, 100000.00, 0, 1, 1, 100000045);
         </sql>
 
         <sql>
@@ -28,8 +28,8 @@
         </sql>
 
         <sql>
-            INSERT INTO simple_account (id, balance, account_type, version, user_id)
-            VALUES (12, 200000.00, 0, 1, 12);
+            INSERT INTO simple_account (id, balance, account_type, version, user_id,account_number)
+            VALUES (12, 200000.00, 0, 1, 12,100000046);
         </sql>
 
         <sql>

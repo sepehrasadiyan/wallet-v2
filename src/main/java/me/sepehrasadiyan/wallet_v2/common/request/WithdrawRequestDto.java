@@ -1,5 +1,6 @@
 package me.sepehrasadiyan.wallet_v2.common.request;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DepositRequestDto {
-
+public class WithdrawRequestDto {
     private BigDecimal amount;
     private Long userId;
     private String accountNumber;
+    private String destinationAccountNumber;
 }
