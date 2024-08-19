@@ -22,4 +22,24 @@
         </sql>
     </changeSet>
 
+
+
+    <changeSet id="create-sequence-account-number" author="s.asadiyan">
+        <createTable tableName="account_number_seq">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="create-sequence-accountNumber" author="s.asadiyan">
+        <sql>
+            CREATE PROCEDURE get_next_account_number(OUT next_val INT)
+            BEGIN
+            INSERT INTO account_number_seq VALUES (NULL);
+            SET next_val = LAST_INSERT_ID();
+            END
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>

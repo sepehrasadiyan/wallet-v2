@@ -70,4 +70,12 @@ public class SimpleAccountService {
         query.execute();
         return (Long) query.getOutputParameterValue(1);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Long getNextAccountNumber() {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("get_next_account_number");
+        query.registerStoredProcedureParameter(1, Long.class, ParameterMode.OUT);
+        query.execute();
+        return (Long) query.getOutputParameterValue(1);
+    }
 }

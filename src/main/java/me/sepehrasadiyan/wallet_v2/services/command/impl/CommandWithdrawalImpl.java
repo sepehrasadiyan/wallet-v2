@@ -31,6 +31,6 @@ public class CommandWithdrawalImpl implements Command {
     public CommandResult execute(CommandResource commandResource) {
         final DepositRequestDto dto = (DepositRequestDto) commandResource.requestBody();
         final SimpleUser user = simpleUserService.getUserForProcessCommand(dto.getUserId());
-        return simpleAccountService.makeDeposit(user, dto.getAmount());
+        return simpleAccountService.makeWithdrawal(user, dto.getAmount());
     }
 }
