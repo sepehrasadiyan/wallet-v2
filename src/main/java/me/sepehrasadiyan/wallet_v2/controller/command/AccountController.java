@@ -37,7 +37,7 @@ public class AccountController {
                 .createAccount()
                 .requestDto(request)
                 .build();
-        ProxyCommand command = commandFactory.getCommand(commandResource.actionName());
+        Command command = commandFactory.getCommand(commandResource.actionName());
         CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request)
                 .createAccount()
                 .build());

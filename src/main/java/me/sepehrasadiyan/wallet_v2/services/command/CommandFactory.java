@@ -15,11 +15,12 @@ public class CommandFactory {
         this.context = context;
     }
 
-    public ProxyCommand getCommand(String commandType) {
+    public Command getCommand(String commandType) {
         String beanName = commandType + "Command";
         if (!context.containsBean(beanName)) {
             throw new IllegalArgumentException("Invalid command type: " + commandType);
         }
-        return (ProxyCommand) context.getBean(beanName);
+        Command command = (Command) context.getBean(beanName);
+        return new ProxyCommand(command);
     }
 }

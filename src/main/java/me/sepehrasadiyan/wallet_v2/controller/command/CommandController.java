@@ -7,7 +7,6 @@ import me.sepehrasadiyan.wallet_v2.common.request.DepositRequestDto;
 import me.sepehrasadiyan.wallet_v2.common.request.WithdrawRequestDto;
 import me.sepehrasadiyan.wallet_v2.common.response.DepositResponseDto;
 import me.sepehrasadiyan.wallet_v2.common.response.WithdrawResponseDto;
-import me.sepehrasadiyan.wallet_v2.services.ProxyCommand;
 import me.sepehrasadiyan.wallet_v2.services.command.Command;
 import me.sepehrasadiyan.wallet_v2.services.command.CommandFactory;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandBuilder;
@@ -40,7 +39,7 @@ public class CommandController {
                 .createDepositCommand(request.getAccountNumber(), request.getAmount())
                 .requestDto(request)
                 .build();
-        ProxyCommand command = commandFactory.getCommand(commandResource.actionName());
+        Command command = commandFactory.getCommand(commandResource.actionName());
         CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createDepositCommand(
                 request.getAccountNumber(), request.getAmount()).build());
         return ResponseEntity.ok(new DepositResponseDto(commandResult.getReferenceId()));
@@ -52,7 +51,7 @@ public class CommandController {
                 .createWithdrawalCommand(request.getAccountNumber(), request.getAmount())
                 .requestDto(request)
                 .build();
-        ProxyCommand command = commandFactory.getCommand(commandResource.actionName());
+        Command command = commandFactory.getCommand(commandResource.actionName());
         CommandResult commandResult = command.execute(new CommandBuilder().requestDto(request).createWithdrawalCommand(
                 request.getAccountNumber(), request.getAmount()
         ).build());
