@@ -10,9 +10,9 @@ public class CommandBuilder<T>  {
 
     private T requestBody;
 
-    private String actionName;
+    private String actionName = null;
 
-    private String accountNumber;
+    private String accountNumber = null;
 
     private BigDecimal amount;
 
@@ -36,6 +36,11 @@ public class CommandBuilder<T>  {
         this.actionName = "withdrawal";
         this.accountNumber = accountNumber;
         this.amount = amount;
+        return this;
+    }
+
+    public CommandBuilder<T> createAccount() {
+        this.actionName = "createAccount";
         return this;
     }
 

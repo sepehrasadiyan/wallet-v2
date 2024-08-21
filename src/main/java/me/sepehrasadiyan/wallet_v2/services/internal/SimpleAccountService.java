@@ -5,12 +5,13 @@ import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 import lombok.extern.slf4j.Slf4j;
+import me.sepehrasadiyan.wallet_v2.common.internal.AccountTypeEnum;
+import me.sepehrasadiyan.wallet_v2.common.request.CreateAccountRequestDto;
 import me.sepehrasadiyan.wallet_v2.domain.SimpleAccount;
 import me.sepehrasadiyan.wallet_v2.domain.SimpleJournal;
 import me.sepehrasadiyan.wallet_v2.domain.SimpleUser;
 import me.sepehrasadiyan.wallet_v2.repository.SimpleAccountRepository;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResult;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,8 @@ public class SimpleAccountService {
 
     @Transactional(propagation = Propagation.MANDATORY)
     public CommandResult makeDeposit(SimpleUser user, BigDecimal amount) {
+        //todo: you can use Lock interface if you have obsess in synchronization
+        //      version in Entity handel everyThing almost
         List<SimpleAccount> accountList = simpleAccountRepository.findAllByUser(user);
         // The logic over here can change due to the business
         SimpleAccount simpleAccount = accountList.getFirst();
@@ -40,11 +43,13 @@ public class SimpleAccountService {
         simpleJournal.setReferenceId(getNextReferenceNumber());
         simpleAccount.addJournal(simpleJournal);
         simpleAccountRepository.save(simpleAccount);
-        return new CommandResult(simpleJournal.getReferenceId());
+        return new CommandResult(simpleJournal.getReferenceId(), null);
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
     public CommandResult makeWithdrawal(SimpleUser user, BigDecimal amount) {
+        //todo: you can use Lock interface if you have obsess in synchronization
+        //      version in Entity handel everyThing almost
         List<SimpleAccount> accountList = simpleAccountRepository.findAllByUser(user);
         // The logic over here can change due to the business
         SimpleAccount simpleAccount = accountList.getFirst();
@@ -52,7 +57,21 @@ public class SimpleAccountService {
         simpleJournal.setReferenceId(getNextReferenceNumber());
         simpleAccount.addJournal(simpleJournal);
         simpleAccountRepository.save(simpleAccount);
-        return new CommandResult(simpleJournal.getReferenceId());
+        return new CommandResult(simpleJournal.getReferenceId(), null);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public SimpleAccount createAccount(SimpleUser simpleUser, CreateAccountRequestDto requestDto) {
+        //todo: you can use Lock interface if you have obsess in synchronization
+        //      version in Entity handel everyThing almost
+        SimpleAccount simpleAccount = new SimpleAccount();
+        simpleAccount.setUser(simpleUser);
+        simpleAccount.setAccountNumber(String.valueOf(getNextAccountNumber()));
+        simpleAccount.setAccountTypeEnum(AccountTypeEnum.PERSONAL);
+        simpleAccount.setBalance(requestDto.getInitBalance());
+        SimpleAccount saved = simpleAccountRepository.saveAndFlush(simpleAccount);
+        simpleUser.addAccount(saved);
+        return saved;
     }
 
 

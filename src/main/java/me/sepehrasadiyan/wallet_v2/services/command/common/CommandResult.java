@@ -10,5 +10,6 @@ import java.io.Serializable;
 public class CommandResult implements Serializable {
 
     private Long referenceId;
+    private Object responseDto;
 
 }

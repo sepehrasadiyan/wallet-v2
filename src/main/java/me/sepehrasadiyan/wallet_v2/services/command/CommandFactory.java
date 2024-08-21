@@ -1,5 +1,6 @@
 package me.sepehrasadiyan.wallet_v2.services.command;
 
+import me.sepehrasadiyan.wallet_v2.services.ProxyCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -14,11 +15,11 @@ public class CommandFactory {
         this.context = context;
     }
 
-    public Command getCommand(String commandType) {
+    public ProxyCommand getCommand(String commandType) {
         String beanName = commandType + "Command";
         if (!context.containsBean(beanName)) {
             throw new IllegalArgumentException("Invalid command type: " + commandType);
         }
-        return (Command) context.getBean(beanName);
+        return (ProxyCommand) context.getBean(beanName);
     }
 }

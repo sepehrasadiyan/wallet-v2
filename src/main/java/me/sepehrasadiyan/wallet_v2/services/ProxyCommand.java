@@ -1,6 +1,8 @@
 package me.sepehrasadiyan.wallet_v2.services;
 
 import lombok.extern.slf4j.Slf4j;
+import me.sepehrasadiyan.wallet_v2.common.logger_impl.CommandLogger;
+import me.sepehrasadiyan.wallet_v2.common.logger_impl.CommandSubject;
 import me.sepehrasadiyan.wallet_v2.services.command.Command;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResource;
 import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResult;
@@ -10,9 +12,11 @@ import me.sepehrasadiyan.wallet_v2.services.command.common.CommandResult;
 public class ProxyCommand implements Command {
 
     private final Command command;
+    private final CommandSubject commandSubject = new CommandSubject();
 
     public ProxyCommand(Command command) {
         this.command = command;
+        commandSubject.registerObserver(new CommandLogger());
     }
 
     public ProxyCommand() {
@@ -21,12 +25,11 @@ public class ProxyCommand implements Command {
 
     @Override
     public CommandResult execute(CommandResource commandResource) {
-        log.info("Executing proxy command: {}", commandResource);
-        log.info("perform command with accountNumber :{} and transactionType{} and amount :{}",
-                commandResource.accountNumber(), commandResource.actionName(), commandResource.amount());
+        commandSubject.notifyObservers(commandResource,
+                "Performing command with accountNumber: {} and transactionType: {} and amount: {}");
         final CommandResult commandResult = command.execute(commandResource);
-        log.info("done command with accountNumber :{} and transactionType{} and amount :{}",
-                commandResource.accountNumber(), commandResource.actionName(), commandResource.amount());
+        commandSubject.notifyObservers(commandResource,
+                "Done command with accountNumber: {} and transactionType: {} and amount: {}");
         return commandResult;
     }
 
